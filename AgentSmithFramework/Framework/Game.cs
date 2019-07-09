@@ -12,6 +12,7 @@ namespace AgentSmith.Framework
         public Agent CurrentPlayer => Players[State.CurrentPlayer];
         public Agent[] Players;
 
+        
         public Game GetSuccessor(Move move)
         {
             Game g = (Game)this.Clone();
@@ -30,6 +31,11 @@ namespace AgentSmith.Framework
         public abstract bool ApplyMove(Move move);
         public abstract bool IsFinished();
         public abstract double GetScore(Agent player);
+
+        public double GetScore(int player)
+        {
+            return GetScore(Players[player]);
+        }
         public abstract IEnumerable<Move> GetMoves();
 
         public State State;

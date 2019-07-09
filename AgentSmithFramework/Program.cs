@@ -4,6 +4,7 @@ using AgentSmith.Framework;
 using AgentSmith.Games.TicTacToe;
 using AgentSmith.Games.Connect4;
 using AgentSmithFramework.Agents;
+using AgentSmithFramework.Heuristics;
 
 namespace AgentSmith
 {
@@ -16,10 +17,14 @@ namespace AgentSmith
 
         public static void PlayTicTacToeInteractive()
         {
-            Agent X = new HumanAgent("Thomas");
-            Agent O = new MiniMaxAgent("Brutus");
+            var X = new HumanAgent("Thomas");
+            var O = new MiniMaxAgent("Brutus");
 
-            var game = new TicTacToe(new[] { X, O });
+            O.heuristic = new LinearHeuristicCombination(
+                new Tuple<Heuristic, double>(new CurrentScoreHeuristic(), 1.0),
+                new Tuple<Heuristic, double>(new GameLengthHeuristic(), 0.01));
+
+            var game = new TicTacToe(new Agent[] { X, O });
             game.Run();
 
              Console.WriteLine(game);
@@ -28,8 +33,8 @@ namespace AgentSmith
 
         public static void PlayConnect4Interactive()
         {
-            Agent X = new HumanAgent("Thomas");
-            Agent O = new MiniMaxAgent("Brutus");
+            Agent O = new HumanAgent("Thomas");
+            Agent X = new MiniMaxAgent("Brutus");
 
             var game = new Connect4(new[] { X, O });
             game.Run();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Windows.Forms;
 using AgentSmith.Framework;
@@ -80,6 +81,7 @@ namespace AgentSmith.Games.TicTacToe
                       $"> {CurrentPlayer} to play\n");
         }
 
+        
         public override IEnumerable<Move> GetMoves()
         {
             return Enumerable.Range(1, 9).Where(x => board[x-1].Equals('-')).Select(i => new Move(i));
@@ -109,6 +111,8 @@ namespace AgentSmith.Games.TicTacToe
 
     public class TicTacToeState : State
     {
+        
+
         public char[] board { get; set; }
         
         public override object Clone()

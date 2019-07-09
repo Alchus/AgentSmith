@@ -59,11 +59,14 @@ namespace AgentSmith.Games.Connect4
         //"Borrowed" from https://stackoverflow.com/a/38211417
         private bool AreFourConnected(char player)
         {
-
+            //We can 'cheat' this because the game would already be over if 
+            //the last player to play had won.
+            if (player == GetChar(CurrentPlayer)) return false;
+            
             // horizontalCheck 
-            for (int x = 0; x < BoardWidth - 4; x++)
+            for (int x = 0; x < BoardWidth - 3; x++)
             {
-                for (int y = 0; y < BoardHeight -1; y++)
+                for (int y = 0; y < BoardHeight; y++)
                 {
                     if (board[x, y] == player && board[x + 1, y] == player && board[x + 2, y] == player && board[x + 3, y] == player)
                     {
@@ -72,9 +75,9 @@ namespace AgentSmith.Games.Connect4
                 }
             }
             // verticalCheck
-            for (int y = 0; y < BoardHeight - 4; y++)
+            for (int y = 0; y < BoardHeight - 3; y++)
             {
-                for (int x = 0; x < BoardWidth -1; x++)
+                for (int x = 0; x < BoardWidth; x++)
                 {
                     if (board[x, y] == player && board[x, y + 1] == player && board[x, y + 2] == player && board[x, y + 3] == player)
                     {
@@ -83,18 +86,18 @@ namespace AgentSmith.Games.Connect4
                 }
             }
             // ascendingDiagonalCheck 
-            for (int y = 3; y < BoardHeight -1; y++)
+            for (int y = 3; y < BoardHeight; y++)
             {
-                for (int x = 0; x < BoardWidth - 4; x++)
+                for (int x = 0; x < BoardWidth - 3; x++)
                 {
                     if (board[x,y] == player && board[x + 1,y - 1] == player && board[x + 2,y - 2] == player && board[x + 3,y - 3] == player)
                         return true;
                 }
             }
             // descendingDiagonalCheck
-            for (int y = 3; y < BoardHeight - 1; y++)
+            for (int y = 3; y < BoardHeight; y++)
             {
-                for (int x = 3; x < BoardWidth - 1; x++)
+                for (int x = 3; x < BoardWidth; x++)
                 {
                     if (board[x,y] == player && board[x - 1,y - 1] == player && board[x - 2,y - 2] == player && board[x - 3,y - 3] == player)
                         return true;
@@ -112,13 +115,14 @@ namespace AgentSmith.Games.Connect4
         public override String ToString()
         {
             return
-                "1|2|3|4|5|6|7\n"+
-                $"{board[0, 5]},{board[1, 5]},{board[2, 5]},{board[3, 5]},{board[4, 5]},{board[5, 5]},{board[6, 5]},\n" +
-                $"{board[0, 4]},{board[1, 4]},{board[2, 4]},{board[3, 4]},{board[4, 4]},{board[5, 4]},{board[6, 4]},\n" +
-                $"{board[0, 3]},{board[1, 3]},{board[2, 3]},{board[3, 3]},{board[4, 3]},{board[5, 3]},{board[6, 3]},\n" +
-                $"{board[0, 2]},{board[1, 2]},{board[2, 2]},{board[3, 2]},{board[4, 2]},{board[5, 2]},{board[6, 2]},\n" +
-                $"{board[0, 1]},{board[1, 1]},{board[2, 1]},{board[3, 1]},{board[4, 1]},{board[5, 1]},{board[6, 1]},\n" +
-                $"{board[0, 0]},{board[1, 0]},{board[2, 0]},{board[3, 0]},{board[4, 0]},{board[5, 0]},{board[6, 0]},\n" +
+                 "|1|2|3|4|5|6|7|\n"+
+                $"|{board[0, 5]},{board[1, 5]},{board[2, 5]},{board[3, 5]},{board[4, 5]},{board[5, 5]},{board[6, 5]}|\n" +
+                $"|{board[0, 4]},{board[1, 4]},{board[2, 4]},{board[3, 4]},{board[4, 4]},{board[5, 4]},{board[6, 4]}|\n" +
+                $"|{board[0, 3]},{board[1, 3]},{board[2, 3]},{board[3, 3]},{board[4, 3]},{board[5, 3]},{board[6, 3]}|\n" +
+                $"|{board[0, 2]},{board[1, 2]},{board[2, 2]},{board[3, 2]},{board[4, 2]},{board[5, 2]},{board[6, 2]}|\n" +
+                $"|{board[0, 1]},{board[1, 1]},{board[2, 1]},{board[3, 1]},{board[4, 1]},{board[5, 1]},{board[6, 1]}|\n" +
+                $"|{board[0, 0]},{board[1, 0]},{board[2, 0]},{board[3, 0]},{board[4, 0]},{board[5, 0]},{board[6, 0]}|\n" +
+                 "|1|2|3|4|5|6|7|\n" +
                 (IsFinished()
                     ? $"Game complete, Score: {GetScore(Players[0])}"
                     : "Game in progress" + "\n" +
@@ -158,15 +162,19 @@ namespace AgentSmith.Games.Connect4
             board[x,y] = GetChar(CurrentPlayer);
 
             State.CurrentPlayer = (State.CurrentPlayer + 1) % 2;
+
+            ((Connect4State)State).moveCount++;
             return true;
         }
     }
 
-    public class Connect4State : State
+    public class Connect4State : State, MovesCount
     {
 
         public char[,] board { get; set; }
-        
+        public int moveCount = 0;
+        public int MoveCount() => moveCount;
+
         public override object Clone()
         {
             var o = (Connect4State)MemberwiseClone();

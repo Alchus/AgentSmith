@@ -64,9 +64,14 @@
     <Compile Include="Framework\Game.cs" />
     <Compile Include="Framework\LogLevel.cs" />
     <Compile Include="Framework\Move.cs" />
+    <Compile Include="Framework\MoveCount.cs" />
     <Compile Include="Framework\State.cs" />
     <Compile Include="Games\Connect4\Connect4.cs" />
     <Compile Include="Games\TicTacToe\TicTacToe.cs" />
+    <Compile Include="Heuristics\GameLengthHeuristic.cs" />
+    <Compile Include="Heuristics\LinearHeuristicCombination.cs" />
+    <Compile Include="Heuristics\CurrentScoreHeuristic.cs" />
+    <Compile Include="Framework\Heuristic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
