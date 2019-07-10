@@ -68,6 +68,7 @@
     <Compile Include="Framework\State.cs" />
     <Compile Include="Games\Connect4\Connect4.cs" />
     <Compile Include="Games\TicTacToe\TicTacToe.cs" />
+    <Compile Include="Games\TreeTraversal\TreeTraversal.cs" />
     <Compile Include="Heuristics\GameLengthHeuristic.cs" />
     <Compile Include="Heuristics\LinearHeuristicCombination.cs" />
     <Compile Include="Heuristics\CurrentScoreHeuristic.cs" />
