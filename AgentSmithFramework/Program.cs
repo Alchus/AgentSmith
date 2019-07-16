@@ -14,18 +14,15 @@ namespace AgentSmith
         static void Main(string[] args)
         {
             //PlayConnect4Interactive();
-            PlayTreeInteractive();
+            //PlayTreeInteractive();
+            PlayTicTacToeInteractive();
         }
 
         public static void PlayTicTacToeInteractive()
         {
             var X = new HumanAgent("Thomas");
             var O = new MiniMaxAgent("Brutus");
-
-            O.heuristic = new LinearHeuristicCombination(
-                new Tuple<Heuristic, double>(new CurrentScoreHeuristic(), 1.0),
-                new Tuple<Heuristic, double>(new GameLengthHeuristic(), 0.01));
-
+            
             var game = new TicTacToe(new Agent[] { X, O });
             game.Run();
 
@@ -39,9 +36,7 @@ namespace AgentSmith
             var X = new HumanAgent("Thomas");
             var O = new MiniMaxAgent("Brutus");
 
-            O.heuristic = new LinearHeuristicCombination(
-                new Tuple<Heuristic, double>(new CurrentScoreHeuristic(), 1.0),
-                new Tuple<Heuristic, double>(new GameLengthHeuristic(), 0.01));
+            O.heuristic = new CurrentScoreHeuristic();
 
             var game = new Connect4(new Agent[] { X, O });
             game.Run();
