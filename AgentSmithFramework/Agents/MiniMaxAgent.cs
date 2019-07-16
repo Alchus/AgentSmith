@@ -72,17 +72,17 @@ namespace AgentSmithFramework.Agents
             {
                 var future = game.GetSuccessor(move);
                 var value = -1.0 * NegaMax(future, depth + 1, out var worst, -1.0 * beta, -1.0 * alpha, -1.0 * multiplier);
-                if (value >= bestSoFar)
+                if (value > bestSoFar)
                 {
                     bestSoFar = value;
                     bestMove = move;
-                    //alpha = Math.Max(alpha, value);
+                    alpha = Math.Max(alpha, value);
                 }
 
-                //if (alpha >= beta)
-                //{
-                //    //break;
-                //}
+                if (alpha >= beta)
+                {
+                    break;
+                }
             }
 
             return bestSoFar;
