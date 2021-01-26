@@ -10,9 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./AgentSmith
-
+    defaults:
+      run:
+        working-directory: AgentSmith
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
